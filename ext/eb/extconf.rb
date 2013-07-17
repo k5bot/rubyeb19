@@ -27,4 +27,4 @@ EOS
   end
 end
 
-create_makefile("eb")
+create_makefile("eb/eb")
