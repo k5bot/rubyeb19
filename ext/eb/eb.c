@@ -7,9 +7,6 @@
 *    Copyleft
 ************************************************/
 
-#define RUBYEB_VERSION "2.6"
-
-
 #include "ruby.h"
 
 #ifndef rb_iterator_p
@@ -1653,7 +1650,6 @@ Init_eb()
     id_eb_encidx = rb_intern("@__ruby_eb_encidx__");
 
     mEB = rb_define_module("EB");
-    rb_define_const(mEB,"RUBYEB_VERSION",rb_str_new2(RUBYEB_VERSION));
     cEBook = rb_define_class_under(mEB, "Book", rb_cObject);
     cEBCancel = rb_define_class_under(mEB, "Cancel", rb_cObject);
     cEBPosition = rb_define_class_under(mEB, "Position", rb_cObject);
