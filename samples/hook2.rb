@@ -1,4 +1,5 @@
 #!/bin/env ruby -Ke
+# encoding: euc-jp
 require "eb"
 
 eb=EB::Book.new

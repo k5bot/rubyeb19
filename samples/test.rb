@@ -1,5 +1,5 @@
 #!/bin/env ruby -Ke
-# -*- coding: euc-jp -*-
+# encoding: euc-jp
 require "eb"
 
 if defined? Encoding
