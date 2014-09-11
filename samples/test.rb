@@ -1,4 +1,4 @@
-#!/bin/env ruby -Ke
+#!/usr/bin/env ruby -Ke
 # encoding: euc-jp
 require "eb"
 
