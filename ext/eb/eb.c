@@ -398,7 +398,7 @@ reb_setsubbook(VALUE obj, VALUE sbook)
 }
 
 static VALUE
-reb_getsubbook(VALUE obj, VALUE sbook)
+reb_getsubbook(VALUE obj)
 {
     EB_Book *eb;
     int r;
