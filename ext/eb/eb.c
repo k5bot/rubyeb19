@@ -8,6 +8,7 @@
 ************************************************/
 
 #include "ruby.h"
+#include "ruby/version.h"
 
 #ifndef rb_iterator_p
 #define rb_iterator_p() rb_block_given_p()
@@ -37,6 +38,9 @@
 #error EB version too small.
 #endif
 
+#if (RUBY_API_VERSION_CODE < 20700)
+#define HAS_TAINT
+#endif
 
 /* eb_???_font_xbm_size() doesn't work on eb-3.2.3 */
 #define HAVE_XBMSIZE_BUG  0
@@ -70,7 +74,11 @@
 #define rb_usascii_str_new_cstr(ptr) rb_str_new2(ptr)
 #define rb_filesystem_str_new_cstr(ptr) rb_str_new2(ptr)
 /* "((void)enc, ...)" is a hack to suppress warnings: unused variable 'enc' */
+#ifdef HAS_TAINT
 #define rb_external_str_new_with_enc(ptr, len, enc) ((void)enc, rb_tainted_str_new((ptr), (len)))
+#else
+#define rb_external_str_new_with_enc(ptr, len, enc) ((void)enc, rb_str_new((ptr), (len)))
+#endif
 #define rb_str_export_to_enc(str, enc) ((void)enc, (str))
 #endif
 
@@ -1094,7 +1102,9 @@ read_binary(EB_Book * eb, long maxlen, int iterateflag)
                 break;
         }
     }
+#ifdef HAS_TAINT
     rb_obj_taint(robj);
+#endif
 
     return iterateflag ? INT2NUM(readbytes) : robj;
 }
@@ -1365,7 +1375,11 @@ font2bitmapformat(struct ExtFont *font,
     };
 
     (*conv_func) (font->bitmap, width, height, buffer, &size);
+#ifdef HAS_TAINT
     robj = rb_tainted_str_new(buffer, size);
+#else
+    robj = rb_str_new(buffer, size);
+#endif
     free(buffer);
     return robj;
 }
